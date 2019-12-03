@@ -1,0 +1,131 @@
+# initial main options. choosing if buyer or seller
+# problem: 
+# 1. Wont take other form of user input. will only accept form indicated in ifelse statement. 
+# 2. Not sure if enough error checking. Already checked if input is 'buyer', 'seller', or none. 
+# 3. Neverending loop of getting user input if choice is none of the listed choices. 
+# 4. Added option to load a user 
+
+# struct of seller info
+list_of_sellers = []
+
+class Sellers():
+	def __init__(self, username, total_items):
+		self.username = username
+		self.total_items = total_items
+
+
+# username checker
+def account(username):
+	f = open("accounts.txt", "r")
+	f1 = f.read().splitlines()
+	chk = 0
+	for x in f1:
+		if username == x:
+			chk = 1
+	f.close()
+	return chk
+		
+
+# Seller program 
+def seller():
+	print('Hello SELLER!')
+
+	# loading and creating an account
+	correct2 = 0
+	while correct2 == 0:
+		seller = input('Options:\n1: Load existing account\n2: Create a new one\n')
+		if seller == '1':
+			username = input('Enter username: ')
+			print(username)
+			chk = account(username)
+			if chk == 1:
+				print('Hello', username)
+				correct2 = 1
+			else:
+				print('Username does not exist.')
+		elif seller == '2':
+			username = input('Enter username: ')
+			chk = account(username)
+			if chk == 1:
+				print('Username exists already.')
+			else:	
+				print('Hello', username)
+				f = open("accounts.txt", "a+")
+				f.write(username + '\n')	
+				correct2 = 1		
+				f.close()
+		else:
+			print('Error: Incorrect input.')
+
+	
+	# options
+	correct3 = 0
+	back = 1
+	while correct3 == 0:
+		if back == 1:
+			option = input('A: Marketplace\nB: Auctions\nC: Items\nD: Messages\nE: Exit Program\n')
+			back = 0
+		if option == 'A':
+			# marketplace
+			checker = 0
+			market = input('Options:\n1: Post new item\n2: View all items\n3: Back\n')
+			while checker == 0:
+				if market == '1':
+					print('Posting new item')
+					checker = 1
+					correct3 = 1
+				elif  market == '2':
+					print('Viewing all items')
+					checker = 1
+					correct3 = 1
+				elif market == '3':
+					checker = 1
+					correct3 = 0
+					back = 1
+				else:
+					print('Invalid input')
+			
+		elif option == 'B':
+			print('Welcome to AUCTIONS')
+			correct3 = 1
+		elif option == 'C':
+			print('Welcome to ITEMS')
+			correct3 = 1
+		elif option == 'D':
+			print('Welcome to MESSAGES')
+			correct3 = 1
+		elif option == 'E':
+			exit('Goodbye')
+		else:
+			print('Invalid Input.')
+	
+
+def buyer():
+	print('Hello BUYER!')
+		
+	
+# main program
+print('Welcome to the MARKETPLACE!')
+
+# counting number of sellers 
+num_sellers = 0
+f = open("accounts.txt", "r")
+f1 = f.readlines()
+for x in f1:
+	num_sellers+=1
+f.close()
+
+
+correct1 = 0;
+while correct1 == 0:
+	user = input("Buyer or Seller? ")
+	if user == 'buyer':
+		buyer()
+		correct1 = 1
+	elif user == 'seller':
+		seller()
+		correct1 = 1
+	else:
+		print('Error: Incorrect input.')
+
+print('end')
